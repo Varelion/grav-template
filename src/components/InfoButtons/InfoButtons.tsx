@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import block from 'bem-cn-lite';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Alert, Button, Icon} from '@gravity-ui/uikit';
 import {BookOpen, CopyTransparent, ListUl, LogoTelegram} from '@gravity-ui/icons';
 import Figma from '../../assets/icons/figma.svg?react';
 import Storybook from '../../assets/icons/storybook.svg?react';
@@ -11,8 +11,50 @@ import './InfoButtons.scss';
 const b = block('info-buttons');
 
 export const InfoButtons: React.FC = () => {
+    const [showAlert, setShowAlert] = useState(false);
+
+    const handleClick = async () => {
+        // Show the alert
+        setShowAlert(true);
+
+        // Wait for 5 seconds
+        const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        await sleep(5000);
+
+        // Hide the alert
+        setShowAlert(false);
+    };
+
     return (
         <div className={b()}>
+            <div style={{position: 'relative'}}>
+                <Button id="bt" size="l" view="outlined" onClick={handleClick}>
+                    CLICK THIS ONE
+                </Button>
+
+                {/* Properly rendered Gravity UI Alert component */}
+                {showAlert && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1000,
+                            marginTop: '8px',
+                            minWidth: '300px',
+                        }}
+                    >
+                        <Alert
+                            theme="danger"
+                            title="Danger"
+                            message="Danger theme"
+                            onClose={() => console.log('Clicked')}
+                        />
+                    </div>
+                )}
+            </div>
+
             <div className={b('block')}>
                 <div className={b('title')}>About Gravity UI</div>
                 <div className={b('buttons')}>
